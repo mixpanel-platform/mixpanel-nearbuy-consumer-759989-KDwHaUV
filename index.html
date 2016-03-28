@@ -83,7 +83,7 @@
       
       function sortData(obj) {
         const ordered = {};
-        Object.keys(obj).sort().forEach(function(key) {
+        _.keys(obj).sort().forEach(function(key) {
           ordered[key] = obj[key];
         });
         
@@ -174,25 +174,22 @@
           var unitLetter = params.unit.substr(0,1).toUpperCase();
           var unitLabel = unitLetter + 'AU';
           var result = {};
-          var lastUnitValue;
           _.each(_.keys(obj), function(date) {
             result[date] = {};
-            result[date][unitLabel] = obj[date].dau;
-            result[date][unitLetter + 'o' + unitLetter] = ((obj[date].dau-lastUnitValue)/lastUnitValue*100).toFixed(2) + '%';
-            result[date]['Total Installs'] = obj[date].install;
-            result[date]['Total Transactions'] = obj[date].transactions;
-            result[date]['Total Sessions'] = obj[date].launch;
-            result[date]['Unique Transactions'] = obj[date].unique_trans;
-            result[date]['Total Successful Transactions'] = obj[date].success_trans;
-            result[date]['Unique Buyers'] = obj[date].unique_success_trans;
-            result[date][unitLabel + '/Installs'] = (obj[date].dau/obj[date].install).toFixed(2);
-            result[date]['Transactions/' + unitLabel] = (obj[date].unique_trans/obj[date].dau).toFixed(2);
-            result[date]['Buyers/' + unitLabel] = (obj[date].unique_success_trans/obj[date].dau).toFixed(2);
-            result[date]['Successful Transactions/Buyer'] = (obj[date].success_trans/obj[date].unique_success_trans).toFixed(2);
-            result[date]['Total Transactions/Total Sessions'] = (obj[date].transactions/obj[date].launch).toFixed(2);
-            result[date]['Sum Revenue'] = '$' + (obj[date].revenue).toFixed(2);
-            result[date]['Sum Revenue/' + unitLabel] = '$' + (obj[date].revenue/obj[date].dau).toFixed(2);
-            lastUnitValue = obj[date].dau;
+            result[date]['*' + unitLabel] = obj[date].dau;
+            result[date]['*Total Installs'] = obj[date].install;
+            result[date]['*Total Transactions'] = obj[date].transactions;
+            result[date]['**Total Sessions'] = obj[date].launch;
+            result[date]['**Unique Transactions'] = obj[date].unique_trans;
+            result[date]['***Total Successful Transactions'] = obj[date].success_trans;
+            result[date]['***Unique Buyers'] = obj[date].unique_success_trans;
+            result[date]['~' + unitLabel + '/Installs'] = (obj[date].dau/obj[date].install).toFixed(2);
+            result[date]['~~Transactions/' + unitLabel] = (obj[date].unique_trans/obj[date].dau).toFixed(2);
+            result[date]['~~~Buyers/' + unitLabel] = (obj[date].unique_success_trans/obj[date].dau).toFixed(2);
+            result[date]['~~~Successful Transactions/Buyer'] = (obj[date].success_trans/obj[date].unique_success_trans).toFixed(2);
+            result[date]['~~~Total Transactions/Total Sessions'] = (obj[date].transactions/obj[date].launch).toFixed(2);
+            result[date]['~~~~Sum Revenue'] = '$' + (obj[date].revenue).toFixed(2);
+            result[date]['~~~~Sum Revenue/' + unitLabel] = '$' + (obj[date].revenue/obj[date].dau).toFixed(2);
           });
           return result;
         });
