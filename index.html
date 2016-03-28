@@ -176,13 +176,13 @@
           var result = {};
           _.each(_.keys(obj), function(date) {
             result[date] = {};
-            result[date]['*' + unitLabel] = obj[date].dau;
-            result[date]['*Total Installs'] = obj[date].install;
-            result[date]['*Total Transactions'] = obj[date].transactions;
+            result[date]['****' + unitLabel] = obj[date].dau;
+            result[date]['***Total Installs'] = obj[date].install;
+            result[date]['***Total Transactions'] = obj[date].transactions;
             result[date]['**Total Sessions'] = obj[date].launch;
             result[date]['**Unique Transactions'] = obj[date].unique_trans;
-            result[date]['***Total Successful Transactions'] = obj[date].success_trans;
-            result[date]['***Unique Buyers'] = obj[date].unique_success_trans;
+            result[date]['*Total Successful Transactions'] = obj[date].success_trans;
+            result[date]['*Unique Buyers'] = obj[date].unique_success_trans;
             result[date]['~' + unitLabel + '/Installs'] = (obj[date].dau/obj[date].install).toFixed(2);
             result[date]['~~Transactions/' + unitLabel] = (obj[date].unique_trans/obj[date].dau).toFixed(2);
             result[date]['~~~Buyers/' + unitLabel] = (obj[date].unique_success_trans/obj[date].dau).toFixed(2);
