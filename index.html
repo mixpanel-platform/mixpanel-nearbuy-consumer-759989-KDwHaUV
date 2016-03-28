@@ -24,17 +24,17 @@
         // set up cq parameters
         var params = {
           dau: {
-            from_date: moment.subtract(8, 'days'),
+            from_date: moment().subtract(8, 'days'),
             to_date: moment(),
             unit: 'day'
           },
           wau: {
-            from_date: moment.subtract(4, 'weeks'),
+            from_date: moment().subtract(4, 'weeks'),
             to_date: moment(),
             unit: 'week'
           },
           mau: {
-            from_date: moment.subtract(3, 'months'),
+            from_date: moment().subtract(3, 'months'),
             to_date: moment(),
             unit: 'month'
           }
