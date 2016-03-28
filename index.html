@@ -23,14 +23,17 @@
       }
     </style>
     <h1>Daily Reporting Dashboard</h1>
-    <div class="section" id="dau">
+    <div class="section">
       <h2>DAU Metrics</h2>
+      <div id="dau"></div>
     </div>
-    <div class="section" id="wau">
+    <div class="section">
       <h2>WAU Metrics</h2>
+      <div id="wau"></div>
     </div>
-    <div class="section" id="mau">
+    <div class="section">
       <h2>MAU Metrics</h2>
+      <div id="mau"></div>
     </div>
     <script>
       // run report
@@ -69,7 +72,7 @@
         _.each({'dau':'Day', 'wau':'Week', 'mau':'Month'}, function(unit, type) {
           
           MP.api.custom_query(script, params[type]).done(function(response) {
-            $('<div></div>').appendTo('#' + type).MPTable({
+            $('#' + type).MPTable({
                 data: response[0],
                 firstColHeader: unit
             });
