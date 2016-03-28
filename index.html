@@ -7,10 +7,31 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
+    <style>
+      body {
+        color: #676c84;
+      }
+      h1 {
+        font-size: 20px;
+      }
+      .section {
+        margin: 30px 0;
+      }
+      h2 {
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+    </style>
     <h1>Daily Reporting Dashboard</h1>
-    <div id="mau"></div>
-    <div id="wau"></div>
-    <div id="dau"></div>
+    <div class="section" id="dau">
+      <h2>DAU Metrics</h2>
+    </div>
+    <div class="section" id="wau">
+      <h2>WAU Metrics</h2>
+    </div>
+    <div class="section" id="mau">
+      <h2>MAU Metrics</h2>
+    </div>
     <script>
       // run report
       $(document).ready(function() {
