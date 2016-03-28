@@ -47,7 +47,7 @@
         // run custom queries
         _.each(['dau', 'wau', 'mau'], function(type) {
           MP.api.custom_query(script, params[type]).done(function(response) {
-            $('<div></div>').appendTo('$' + type).MPTable({
+            $('<div></div>').appendTo('#' + type).MPTable({
                 data: response[0],
                 showPercentages: true,
                 firstColHeader: 'Something'
