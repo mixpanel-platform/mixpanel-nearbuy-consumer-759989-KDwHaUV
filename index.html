@@ -7,9 +7,167 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    <h1>Daily Reporting Dashboard</h1>
+    <div id="mau"></div>
+    <div id="wau"></div>
+    <div id="dau"></div>
     <script>
-      // Run queries and display results here
+      // run report
+      runQuery();
+      function runQuery() {
+        // clear previous results
+        $('#mau').html('');
+        $('#wau').html('');
+        $('#dau').html('');
+        var results = {};
+
+        // set up cq parameters
+        var params = {
+          dau: {
+            from_date: moment.subtract(8, 'days'),
+            to_date: moment(),
+            unit: 'day'
+          },
+          wau: {
+            from_date: moment.subtract(4, 'weeks'),
+            to_date: moment(),
+            unit: 'week'
+          },
+          mau: {
+            from_date: moment.subtract(3, 'months'),
+            to_date: moment(),
+            unit: 'month'
+          }
+        }
+        var script = $('#cq').html();
+        script = $.trim(script);
+        
+        // run custom queries
+        _.each(['dau', 'wau', 'mau'], function(type) {
+          MP.api.custom_query(script, params[type]).done(function(response) {
+            $('<div></div>').appendTo('$' + type).MPTable({
+                data: response[0],
+                showPercentages: true,
+                firstColHeader: 'Something'
+            });
+          });
+        })
+      }
+    </script>
+    
+    <script type="text/cq" id="cq">
+      var unitToFunction = {
+        day: getDay,
+        week: getWeek,
+        month: getMonth
+      };
+      function main() {
+        return Events({
+          from_date: params.from_date,
+          to_date: params.to_date
+        })
+        .filter(function(e) {
+          return e.name === 'launch' || e.name === 'transactions' || e.name === 'install';
+        })
+        .groupByUser([unitToFunction[params.unit]], function(state, events) {
+          state = state || {
+            dau: 0,
+            install: 0,
+            transactions: 0,
+            launch: 0,
+            unique_trans: 0,
+            success_trans: 0,
+            unique_success_trans: 0,
+            revenue: 0,
+          }
+          _.each(events, function(e) {
+            if (e.name === 'install') {
+              state.install += 1;
+            } else if (e.name === 'launch') {
+              state.launch += 1;
+              if (e.properties['launch type'] == 'load') {
+                state.dau = 1;
+              }
+            } else if (e.name === 'transactions') {
+              state.transactions += 1;
+              state.unique_trans = 1;
+              if (e.properties['transaction status'] == 'successful') {
+                state.success_trans += 1;
+                state.unique_success_trans = 1;
+                state.revenue += parseFloat(e.properties['amount paid']);
+              }
+            }
+          });
+          return state;
+        })
+        .reduce(function(prev_outputs, items) {
+          var result = {};
+          _.each(items, function(i) {
+            var date = i.key[1]
+            if (!result[date]) {
+              result[date] = {};
+            }
+            _.each(i.value, function(val, metric) {
+              if (!result[date][metric]) {
+                result[date][metric] = 0;
+              }
+              result[date][metric] += parseFloat(val);
+            });
+          });
+          _.each(prev_outputs, function(a) {
+            _.each(a, function(object, date) {
+              if (!result[date]) {
+                result[date] = {};
+              }
+              _.each(object, function(val, metric) {
+                if (!result[date][metric]) {
+                  result[date][metric] = 0;
+                }
+                result[date][metric] += parseFloat(val);
+              });
+            });
+          });
+          return result;
+        })
+        .map(function(obj) {
+          var unitLetter = params.unit.substr(0,1).toUpperCase();
+          var unitLabel = unitLetter + 'AU';
+          var result = {};
+          _.each(_.keys(obj), function(date) {
+            result[date] = {};
+            result[date][unitLabel] = obj[date].dau;
+            result[date]['Total Installs'] = obj[date].install;
+            result[date]['Total Transactions'] = obj[date].transactions;
+            result[date]['Total Sessions'] = obj[date].launch;
+            result[date]['Unique Transactions'] = obj[date].unique_trans;
+            result[date]['Total Successful Transactions'] = obj[date].success_trans;
+            result[date]['Unique Buyers'] = obj[date].unique_success_trans;
+            result[date][unitLabel + '/Installs'] = (obj[date].dau/obj[date].install).toFixed(1);
+            result[date]['Transactions/' + unitLabel] = (obj[date].unique_trans/obj[date].dau).toFixed(1);
+            result[date]['Buyers/' + unitLabel] = (obj[date].unique_success_trans/obj[date].dau).toFixed(1);
+            result[date]['Successful Transactions/Buyer'] = (obj[date].success_trans/obj[date].unique_success_trans).toFixed(1);
+            result[date]['Total Transactions/Total Sessions'] = (obj[date].transactions/obj[date].launch).toFixed(1);
+            result[date]['Sum Revenue'] = '$' + (obj[date].revenue).toFixed(2);
+            result[date]['Sum Revenue/' + unitLabel] = '$' + (obj[date].revenue/obj[date].dau).toFixed(2);
+          });
+          return result;
+        });
+      }
+      
+      function getDay(event) {
+        return new Date(event.time).toISOString().substr(0, 10);
+      }
+      
+      function getMonth(event) {
+        return new Date(event.time).toISOString().substr(0, 7);
+      }
+      
+      function getWeek(event) {
+        var d = new Date(event.time);
+        var day = d.getDay(),
+            diff = d.getDate() - day + (day === 0 ? -6:1); // adjust when day is sunday
+        return new Date(d.setDate(diff)).toISOString().substr(0, 10);
+      }
     </script>
   </body>
 </html>
