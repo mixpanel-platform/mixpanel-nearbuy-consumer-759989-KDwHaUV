@@ -26,18 +26,18 @@
         // set up cq parameters
         var params = {
           dau: {
-            from_date: moment().subtract(8, 'days'),
-            to_date: moment(),
+            from_date: dateToString(moment().subtract(8, 'days')),
+            to_date: dateToString(moment()),
             unit: 'day'
           },
           wau: {
-            from_date: moment().subtract(4, 'weeks'),
-            to_date: moment(),
+            from_date: dateToString(moment().subtract(4, 'weeks')),
+            to_date: dateToString(moment()),
             unit: 'week'
           },
           mau: {
-            from_date: moment().subtract(3, 'months'),
-            to_date: moment(),
+            from_date: dateToString(moment().subtract(3, 'months')),
+            to_date: dateToString(moment()),
             unit: 'month'
           }
         }
@@ -55,6 +55,11 @@
           });
         })
       }
+      
+      function dateToString(d) {
+        return d.toISOString().split('T')[0];
+      }
+
     </script>
     
     <script type="text/cq" id="cq">
