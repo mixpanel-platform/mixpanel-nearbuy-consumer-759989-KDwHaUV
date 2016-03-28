@@ -13,7 +13,9 @@
     <div id="dau"></div>
     <script>
       // run report
-      runQuery();
+      $(document).ready(function() {
+        runQuery();
+      });
       function runQuery() {
         // clear previous results
         $('#mau').html('');
