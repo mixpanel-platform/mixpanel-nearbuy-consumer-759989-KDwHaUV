@@ -93,7 +93,7 @@
       function addXoX(obj, type) {
         result = obj;
         var XoX = type[0].toUpperCase();
-        var last_xau = 0;
+        var last_xau = 1;
         _.each(obj, function(value, date) {
           var XAU = value['1. ' + XoX + 'AU'];
           result[date]['2. ' + XoX + 'o' + XoX] = ((XAU-last_xau)/last_xau*100).toFixed(2) + '%';
