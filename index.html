@@ -174,9 +174,11 @@
           var unitLetter = params.unit.substr(0,1).toUpperCase();
           var unitLabel = unitLetter + 'AU';
           var result = {};
+          var last_xau;
           _.each(_.keys(obj), function(date) {
             result[date] = {};
             result[date]['****' + unitLabel] = obj[date].dau;
+            result[date]['****' + unitLetter + 'o' + unitLetter] = (obj[date].dau - last_xau)/last_xau*100.toFixed(2) + '%';
             result[date]['***Total Installs'] = obj[date].install;
             result[date]['***Total Transactions'] = obj[date].transactions;
             result[date]['**Total Sessions'] = obj[date].launch;
@@ -191,6 +193,7 @@
             result[date]['~~~~Sum Revenue'] = '$' + (obj[date].revenue).toFixed(2);
             result[date]['~~~~Sum Revenue/' + unitLabel] = '$' + (obj[date].revenue/obj[date].dau).toFixed(2);
           });
+          last_xau = obj[date].dau;
           return result;
         });
       }
