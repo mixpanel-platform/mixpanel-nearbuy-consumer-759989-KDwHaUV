@@ -198,12 +198,12 @@
             result[date]['7. Total Successful Transactions'] = obj[date].success_trans;
             result[date]['8. Unique Buyers'] = obj[date].unique_success_trans;
             result[date]['9. ' + unitLabel + '/Installs'] = (obj[date].dau/obj[date].install).toFixed(2);
-            result[date]['10. Transactions/' + unitLabel] = (obj[date].unique_trans/obj[date].dau).toFixed(2);
-            result[date]['11. Buyers/' + unitLabel] = (obj[date].unique_success_trans/obj[date].dau).toFixed(2);
-            result[date]['12. Successful Transactions/Buyer'] = (obj[date].success_trans/obj[date].unique_success_trans).toFixed(2);
-            result[date]['13. Total Transactions/Total Sessions'] = (obj[date].transactions/obj[date].launch).toFixed(2);
-            result[date]['14. Sum Revenue'] = '$' + (obj[date].revenue).toFixed(2);
-            result[date]['15. Sum Revenue/' + unitLabel] = '$' + (obj[date].revenue/obj[date].dau).toFixed(2);
+            result[date]['~10. Transactions/' + unitLabel] = (obj[date].unique_trans/obj[date].dau).toFixed(2);
+            result[date]['~11. Buyers/' + unitLabel] = (obj[date].unique_success_trans/obj[date].dau).toFixed(2);
+            result[date]['~12. Successful Transactions/Buyer'] = (obj[date].success_trans/obj[date].unique_success_trans).toFixed(2);
+            result[date]['~13. Total Transactions/Total Sessions'] = (obj[date].transactions/obj[date].launch).toFixed(2);
+            result[date]['~14. Sum Revenue'] = '$' + (obj[date].revenue).toFixed(2);
+            result[date]['~15. Sum Revenue/' + unitLabel] = '$' + (obj[date].revenue/obj[date].dau).toFixed(2);
           });
           return result;
         });
