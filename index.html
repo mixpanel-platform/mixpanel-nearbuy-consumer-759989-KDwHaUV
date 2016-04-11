@@ -73,7 +73,6 @@
           
           MP.api.custom_query(script, params[type]).done(function(response) {
             tableData = sortData(response[0], type);
-            console.log(tableData);
             $('#' + type).MPTable({
                 data: tableData,
                 firstColHeader: unit
@@ -88,7 +87,6 @@
           ordered[key] = obj[key];
         });
         result = addXoX(ordered, type);
-        console.log(result);
         return result;
       }
       
