@@ -86,7 +86,7 @@
         _.keys(obj).sort().forEach(function(key) {
           ordered[key] = obj[key];
         });
-        addXoX(ordered, type);
+        return addXoX(ordered, type);
       }
       
       function addXoX(obj, type) {
