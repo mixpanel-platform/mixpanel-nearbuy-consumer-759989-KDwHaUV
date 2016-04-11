@@ -86,7 +86,8 @@
         _.keys(obj).sort().forEach(function(key) {
           ordered[key] = obj[key];
         });
-        return addXoX(ordered, type);
+        result = addXoX(ordered, type);
+        return result;
       }
       
       function addXoX(obj, type) {
@@ -98,7 +99,7 @@
           result['2. ' + XoX + 'o' + XoX] = ((XAU-last_xau)/last_xau*100).toFixed(2) + '%';
           last_xau = XAU;
         });
-        return obj;
+        return result;
       }
       
       function dateToString(d) {
