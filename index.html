@@ -98,7 +98,7 @@
         var last_xau = 0;
         _.each(obj, function(value, date) {
           var XAU = value['1. ' + XoX + 'AU'];
-          result['2. ' + XoX + 'o' + XoX] = ((XAU-last_xau)/last_xau*100).toFixed(2) + '%';
+          result[date]['2. ' + XoX + 'o' + XoX] = ((XAU-last_xau)/last_xau*100).toFixed(2) + '%';
           last_xau = XAU;
         });
         return result;
